@@ -1,0 +1,54 @@
+kotlin
+
+
+package com.example.kalkulator_dat
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import java.time.temporal.ChronoUnit
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    val button = findViewById<Button>(R.id.button_oblicz)
+    val     
+    val data_poczatkowa = findViewById<DatePicker>(R.id.datepicker_datap)
+        data_poczatkowa.setOnDateChangedListener { _, y, m, d ->
+
+        }
+    val data_koncowa = findViewById<DatePicker>(R.id.datepicker_datak)
+        data_koncowa.setOnDateChangedListener { _, y, m, d ->
+
+        }
+        fun getDaysDif(fromDate: LocalDate, toDate: LocalDate): Long {
+            return ChronoUnit.DAYS.between(fromDate, toDate)
+        }
+        fun getLocalDateFromString(d: String): LocalDate {
+            return LocalDate.parse(d, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        }
+
+    button.setOnClickListener {
+        val string_pocz = data_poczatkowa..toString()
+        val string_kon = data_koncowa.text.toString()
+        val f_data_poczatkowa =getLocalDateFromString(string_pocz)
+        val f_data_koncowa =getLocalDateFromString(string_kon)
+        val wynik = getDaysDif(f_data_poczatkowa,f_data_koncowa)
+        findViewById<TextView>(R.id.textView_wynik).text = wynik.toString()
+    }
+    }
+}
